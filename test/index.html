@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>High Level Audio Descriptor Test</title>
+</head>
+<body>
+<script type="text/javascript" src="../dist/signalActivity-Bundle.js"></script>
+<div id="output"></div>
+<script type="text/javascript">
+	let outputDiv = document.getElementById("output");
+
+	navigator.mediaDevices.getUserMedia({audio: true}).then(function(stream){
+		var AudioContext = window.AudioContext || window.webkitAudioContext;
+		var audioCtx;
+        if(audioCtx === undefined){
+            audioCtx = new AudioContext();
+        }
+
+        var source = audioCtx.createMediaStreamSource(stream);
+        var scriptNode = audioCtx.createScriptProcessor(4096,1,1);
+        var anal = audioCtx.createAnalyser();
+        source.connect(scriptNode);
+        scriptNode.connect(anal);
+
+        let checker = new signalActivity(-12)
+        checker.MAX_BUFFER = 5;
+        var level;
+        scriptNode.onaudioprocess = function(e){
+        	var buffer = e.inputBuffer.getChannelData(0)
+        	level = checker.calc(buffer);
+        	outputDiv.innerHTML = level;
+        }
+	})
+</script>
+</body>
+</html>

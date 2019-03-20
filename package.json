@@ -1,0 +1,15 @@
+{
+  "name": "high-level-audio-descriptors",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify ./dev/signalActivity.js -o ./dist/signalActivity-Bundle.js"
+  },
+  "author": "JRB",
+  "license": "ISC"
+}
